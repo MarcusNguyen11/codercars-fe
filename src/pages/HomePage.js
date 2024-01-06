@@ -85,14 +85,11 @@ const HomePage = () => {
     release_date: car.release_date,
   }));
 
-  const getData =
-    useCallback(
-      async () => {
-    const res = await apiService.get(`/cars?page=${page}`);
+  const getData = useCallback(async () => {
+    const res = await apiService.get(`/cars?page=${page}&pageSize=10`);
     setCars(res.data.cars);
-    setTotalPages(res.data.total);
-      }
-      , [page]);
+    setTotalPages(Math.trunc(res.data.total / 10) + 1);
+  }, [page]);
 
   useEffect(() => {
     getData();
